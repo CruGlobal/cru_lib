@@ -17,7 +17,7 @@ module CruLib
     # @param [String] relationship_name
     # @param [String] related_name
     # @param [Object] related_object
-    def attributes_to_push(relationship_name = nil, related_name = nil, related_object = nil)
+    def attributes_to_push(relationship_name: nil, related_name: nil, related_object: nil, base_object: nil)
       if global_registry_id
         attributes_to_push = super
         attributes_to_push
@@ -26,7 +26,8 @@ module CruLib
           "#{relationship_name}:relationship" => {
             client_integration_id: id,
             related_name => related_object.global_registry_id
-          }
+          },
+          client_integration_id: base_object.id
         }
       end
     end
@@ -36,7 +37,7 @@ module CruLib
     def create_in_global_registry(base_object, relationship_name)
       entity = GlobalRegistry::Entity.put(
         base_object.global_registry_id,
-        entity: {base_object.class.global_registry_entity_type_name => attributes_to_push}
+        entity: { base_object.class.global_registry_entity_type_name => attributes_to_push(base_object: base_object) }
       )
 
       base_object_id = entity['entity'][base_object.class.global_registry_entity_type_name]['id']
