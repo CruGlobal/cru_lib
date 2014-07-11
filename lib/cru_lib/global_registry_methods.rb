@@ -23,7 +23,7 @@ module CruLib
       async(:async_push_to_global_registry)
     end
 
-    def async_push_to_global_registry(parent_id = nil, parent_type = nil)
+    def async_push_to_global_registry(parent_id = nil, parent_type = nil, parent = nil)
       self.class.push_structure_to_global_registry
 
       if global_registry_id
@@ -34,7 +34,7 @@ module CruLib
           async_push_to_global_registry
         end
       else
-        create_in_global_registry(parent_id, parent_type)
+        create_in_global_registry(parent_id, parent_type, parent)
       end
     end
 
@@ -49,18 +49,18 @@ module CruLib
       @attributes_to_push
     end
 
-    def update_in_global_registry(parent_id = nil, parent_type = nil)
+    def update_in_global_registry(parent_id = nil, parent_type = nil, parent = nil)
       if parent_type
-        create_in_global_registry(parent_id, parent_type)
+        create_in_global_registry(parent_id, parent_type, parent)
       else
         GlobalRegistry::Entity.put(global_registry_id, {entity: attributes_to_push})
       end
     end
 
-    def create_in_global_registry(parent_id = nil, parent_type = nil)
+    def create_in_global_registry(parent_id = nil, parent_type = nil, parent = nil)
       entity_attributes = { self.class.global_registry_entity_type_name => attributes_to_push }
       if parent_type.present?
-        entity_attributes = {parent_type => entity_attributes}
+        entity_attributes = {parent_type => entity_attributes.merge(client_integration_id: parent.id)}
         GlobalRegistry::Entity.put(parent_id, {entity: entity_attributes})
       else
         entity = GlobalRegistry::Entity.post(entity: entity_attributes)
