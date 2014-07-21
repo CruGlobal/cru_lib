@@ -43,7 +43,7 @@ module CruLib
         @attributes_to_push = {}
         attributes_to_push['client_integration_id'] = id unless self.class.skip_fields_for_gr.include?('client_integration_id')
         attributes_to_push['client_updated_at'] = updated_at if respond_to?(:updated_at)
-        attributes.collect {|k, v| @attributes_to_push[k.underscore] = v}
+        attributes.collect {|k, v| @attributes_to_push[k.underscore] = self.class.gr_value(k.underscore, v)}
         @attributes_to_push.select! {|k, v| v.present? && !self.class.skip_fields_for_gr.include?(k)}
       end
       @attributes_to_push
@@ -70,6 +70,22 @@ module CruLib
     end
 
     module ClassMethods
+      def gr_value(column_name, value)
+        return value if value.blank?
+
+        column = columns_to_push.detect { |c| c[:name] == column_name }
+        return unless column
+
+        case column[:type].to_s
+        when 'datetime', 'date'
+          value.to_s(:db)
+        when 'boolean'
+          value ? 'true' : 'false'
+        else
+          value
+        end
+      end
+
       def push_structure_to_global_registry(parent_id = nil)
         # Make sure all columns exist
         entity_type = Rails.cache.fetch(global_registry_entity_type_name, expires_in: 1.hour) do
