@@ -82,7 +82,7 @@ module CruLib
         when 'boolean'
           value ? 'true' : 'false'
         else
-          value
+          value.to_s.strip
         end
       end
 
