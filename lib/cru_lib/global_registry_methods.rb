@@ -28,7 +28,7 @@ module CruLib
 
       if global_registry_id
         begin
-          update_in_global_registry(parent_id, parent_type)
+          update_in_global_registry(parent_id, parent_type, parent)
         rescue RestClient::ResourceNotFound
           self.global_registry_id = nil
           async_push_to_global_registry
