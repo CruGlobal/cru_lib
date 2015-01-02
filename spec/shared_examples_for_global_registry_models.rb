@@ -22,7 +22,7 @@ shared_examples "global_registry_methods" do
       expect(described_class.skip_fields_for_gr.class).to eq(Array), "Expected #{described_class}.skip_fields_for_gr to return an Array"
       expect(described_class.skip_fields_for_gr.collect(&:class).uniq).to eq([String]), "Expected #{described_class}.skip_fields_for_gr to return an Array of Strings"
       expect(described_class.skip_fields_for_gr.uniq).to eq(described_class.skip_fields_for_gr), "Expected #{described_class}.skip_fields_for_gr to return an Array with no duplicates (#{described_class.skip_fields_for_gr.find_all{ |c| described_class.skip_fields_for_gr.count(c) > 1 }} are all in the array at least twice)"
-      expect(described_class.skip_fields_for_gr - described_class.column_names).to be_empty, "Expected #{described_class}.skip_fields_for_gr to return an Array of Strings where each string is a column (#{described_class.skip_fields_for_gr - described_class.column_names} are not columns)"
+      expect(described_class.skip_fields_for_gr - described_class.column_names - described_class.attribute_aliases.keys).to be_empty, "Expected #{described_class}.skip_fields_for_gr to return an Array of Strings where each string is a column or attribute alias (#{described_class.skip_fields_for_gr - described_class.column_names - described_class.attribute_aliases.keys} are not columns or attribute aliases)"
     end
   end
 end
