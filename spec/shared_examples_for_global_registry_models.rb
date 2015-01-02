@@ -1,4 +1,4 @@
-# To include some tests for global_registry_methods automatically, # copy this file to 
+# To include some tests for global_registry_methods automatically, copy this file to 
 # spec/support/shared_examples_for_global_registry_models.rb in the enclosing app then 
 # add include_examples "global_registry_methods" to the enclosing spec
 #
