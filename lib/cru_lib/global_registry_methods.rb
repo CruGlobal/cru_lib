@@ -76,7 +76,7 @@ module CruLib
         column = columns_to_push.detect { |c| c[:name] == column_name }
         return unless column
 
-        case column[:type].to_s
+        case column[:field_type].to_s
         when 'datetime', 'date'
           value.to_s(:db)
         when 'boolean'
@@ -111,7 +111,7 @@ module CruLib
         @columns_to_push ||= columns.select { |c|
           !skip_fields_for_gr.include?(c.name.underscore)
         }.collect {|c|
-          { name: c.name.underscore, type: normalize_column_type(c.type, c.name.underscore) }
+          { name: c.name.underscore, field_type: normalize_column_type(c.type, c.name.underscore) }
         }
       end
 
