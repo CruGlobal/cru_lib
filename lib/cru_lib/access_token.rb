@@ -28,6 +28,10 @@ module CruLib
       def redis_key(token)
         ['cru_lib:access_token', token].join(':')
       end
+
+      def del(token)
+        redis_client.del(redis_key(token))
+      end
     end
 
     private
