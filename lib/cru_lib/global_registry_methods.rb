@@ -102,7 +102,7 @@ module CruLib
 
         columns_to_push.each do |column|
           unless existing_fields.include?(column[:name])
-            GlobalRegistry::EntityType.post(entity_type: {name: column[:name], parent_id: entity_type['id'], field_type: column[:type]})
+            GlobalRegistry::EntityType.post(entity_type: {name: column[:name], parent_id: entity_type['id'], field_type: column[:field_type]})
           end
         end
       end
