@@ -5,8 +5,9 @@ module CruLib
     attr_accessor :key_guid, :email, :first_name, :last_name, :token, :pgt
 
     def initialize(attributes = {})
-      super
-      generate_access_token unless attributes['token']
+      attributes.symbolize_keys!
+      super(attributes)
+      @token = generate_access_token unless attributes[:token]
       write
     end
 
@@ -26,7 +27,7 @@ module CruLib
       end
 
       def redis_key(token)
-        ['cru_lib:access_token', token].join(':')
+        ['cru_lib', 'access_token', token].join(':')
       end
 
       def del(token)
@@ -41,6 +42,7 @@ module CruLib
         attributes[:token] = SecureRandom.uuid.gsub(/\-/, '')
         break unless self.class.exist?(attributes[:token])
       end
+      attributes[:token]
     end
 
     def write

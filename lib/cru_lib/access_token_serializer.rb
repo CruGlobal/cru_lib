@@ -7,7 +7,7 @@ module CruLib
     end
 
     def id
-      token
+      object.token
     end
   end
 end
