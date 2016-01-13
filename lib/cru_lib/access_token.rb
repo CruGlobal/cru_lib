@@ -2,7 +2,7 @@ require 'securerandom'
 
 module CruLib
   class AccessToken < ActiveModelSerializers::Model
-    attr_accessor :key_guid, :email, :first_name, :last_name, :token, :pgt
+    attr_accessor :key_guid, :relay_guid, :guid, :email, :first_name, :last_name, :token, :pgt
 
     def initialize(attributes = {})
       attributes.symbolize_keys!
