@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
   spec.add_dependency 'global_registry'
-  spec.add_dependency 'active_model_serializers'
+  spec.add_dependency 'active_model_serializers', '~> 0.10.0rc'
   spec.add_dependency 'redis'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
