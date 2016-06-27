@@ -8,8 +8,8 @@ module CruLib
 
 
     included do
-      after_commit :push_to_global_registry
-      after_destroy :delete_from_global_registry
+      after_commit :push_to_global_registry, on: [ :create, :update ]
+      after_commit :delete_from_global_registry, on: :destroy
     end
 
     def delete_from_global_registry
