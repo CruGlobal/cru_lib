@@ -46,7 +46,11 @@ module CruLib
 
       global_registry_id = Array.wrap(
         entity[base_object.class.global_registry_entity_type_name]["#{relationship_name}:relationship"]
-      ).detect { |hash| hash['client_integration_id'] == id.to_s }['relationship_entity_id']
+      ).detect do |hash|
+        cid = hash['client_integration_id']
+        cid = cid['value'] if cid.is_a?(Hash)
+        cid == id.to_s
+      end['relationship_entity_id']
 
       update_column(:global_registry_id, global_registry_id)
 
