@@ -1,0 +1,36 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Include:
+    - Rakefile
+    - config.ru
+    - lib/tasks/**/*.rake
+  Exclude:
+    - vendor/**/*
+    - bin/**/*
+    - spec/**/*
+
+  UseCache: true
+  CacheRootDirectory: 'cache/'
+  TargetRubyVersion: 2.4
+
+Rails:
+  Enabled: true
+
+Style/FileName:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+MethodLength:
+  Severity: warning
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/CyclomaticComplexity:
+  Max: 9
+
+Metrics/ClassLength:
+  Max: 200

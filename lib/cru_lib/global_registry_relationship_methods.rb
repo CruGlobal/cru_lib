@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CruLib
   module GlobalRegistryRelationshipMethods
     extend ActiveSupport::Concern
@@ -7,7 +9,7 @@ module CruLib
       super
     end
 
-    # TODO - deleting a relationship is different.
+    # TODO: - deleting a relationship is different.
     def delete_from_global_registry
       if global_registry_id
         Sidekiq::Client.enqueue(self.class, nil, :async_delete_from_global_registry, global_registry_id)
@@ -48,7 +50,7 @@ module CruLib
         entity[base_object.class.global_registry_entity_type_name]["#{relationship_name}:relationship"]
       ).detect { |hash| hash['client_integration_id'] == id.to_s }['relationship_entity_id']
 
-      update_column(:global_registry_id, global_registry_id)
+      update_column(:global_registry_id, global_registry_id) # rubocop:disable Rails/SkipsModelValidations
 
       update_in_global_registry
     end
@@ -62,38 +64,42 @@ module CruLib
         # A summer project application is a join table between people and projects
         base_type_cache_key = "#{base_type.global_registry_entity_type_name}_entity_type"
         base_entity_type = Rails.cache.fetch(base_type_cache_key, expires_in: 1.hour) do
-          GlobalRegistry::EntityType.get({'filters[name]' => base_type.global_registry_entity_type_name})['entity_types'].first
+          GlobalRegistry::EntityType.get(
+            'filters[name]' => base_type.global_registry_entity_type_name
+          )['entity_types'].first
         end
 
         related_type_cache_key = "#{related_type.global_registry_entity_type_name}_entity_type"
         related_entity_type = Rails.cache.fetch(related_type_cache_key, expires_in: 1.hour) do
-          GlobalRegistry::EntityType.get({'filters[name]' => related_type.global_registry_entity_type_name})['entity_types'].first
+          GlobalRegistry::EntityType.get(
+            'filters[name]' => related_type.global_registry_entity_type_name
+          )['entity_types'].first
         end
 
         relationship_type_cache_key = "#{base_type}_#{related_type}_#{relationship1_name}"
         relationship_type = Rails.cache.fetch(relationship_type_cache_key, expires_in: 1.hour) do
           GlobalRegistry::RelationshipType.get(
-            {'filters[between]' => "#{base_entity_type['id']},#{related_entity_type['id']}"}
+            'filters[between]' => "#{base_entity_type['id']},#{related_entity_type['id']}"
           )['relationship_types'].detect { |r| r['relationship1']['relationship_name'] == relationship1_name }
         end
 
         unless relationship_type
           relationship_type = GlobalRegistry::RelationshipType.post(relationship_type: {
-            entity_type1_id: base_entity_type['id'],
-            entity_type2_id: related_entity_type['id'],
-            relationship1: relationship1_name,
-            relationship2: relationship2_name
-          })['relationship_type']
+                                                                      entity_type1_id: base_entity_type['id'],
+                                                                      entity_type2_id: related_entity_type['id'],
+                                                                      relationship1: relationship1_name,
+                                                                      relationship2: relationship2_name
+                                                                    })['relationship_type']
         end
 
-        existing_fields = relationship_type['fields'].collect {|f| f['name']}
+        existing_fields = relationship_type['fields'].collect { |f| f['name'] }
 
-        (columns_to_push).each do |field|
+        columns_to_push.each do |field|
           next if existing_fields.include?(field[:name])
 
           GlobalRegistry::RelationshipType.put(relationship_type['id'], relationship_type: {
-            fields: [field]
-          })
+                                                 fields: [field]
+                                               })
         end
       end
 
@@ -102,6 +108,4 @@ module CruLib
       end
     end
   end
-
 end
-
