@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cru_lib/version'
 require 'cru_lib/async'
 require 'cru_lib/global_registry_methods'
@@ -25,7 +27,7 @@ module CruLib
     end
 
     def redis_client
-      Redis.new(:host => CruLib.redis_host, :port => CruLib.redis_port, :db => CruLib.redis_db)
+      Redis.new(host: CruLib.redis_host, port: CruLib.redis_port, db: CruLib.redis_db)
     end
   end
 end

@@ -1,4 +1,6 @@
 # coding: utf-8
+# frozen_string_literal: true
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cru_lib/version'
@@ -8,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.version       = CruLib::VERSION
   spec.authors       = ['Josh Starcher']
   spec.email         = ['josh.starcher@gmail.com']
-  spec.summary       = %q{Misc libraries for Cru}
-  spec.description   = %q{Collection of common ruby logic used by a number of Cru apps}
+  spec.summary       = 'Misc libraries for Cru'
+  spec.description   = 'Collection of common ruby logic used by a number of Cru apps'
   spec.homepage      = 'https://github.com/CruGlobal/cru_lib'
   spec.license       = 'MIT'
 
