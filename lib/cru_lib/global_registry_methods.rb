@@ -6,7 +6,6 @@ module CruLib
     extend ActiveSupport::Concern
     include CruLib::Async
 
-
     included do
       after_commit :push_to_global_registry, on: [ :create, :update ]
       after_commit :delete_from_global_registry, on: :destroy
