@@ -6,10 +6,9 @@ module CruLib
     extend ActiveSupport::Concern
     include CruLib::Async
 
-
     included do
-      after_commit :push_to_global_registry
-      after_destroy :delete_from_global_registry
+      after_commit :push_to_global_registry, on: [ :create, :update ]
+      after_commit :delete_from_global_registry, on: :destroy
     end
 
     def delete_from_global_registry
@@ -43,7 +42,7 @@ module CruLib
         @attributes_to_push = {}
         attributes_to_push['client_integration_id'] = id unless self.class.skip_fields_for_gr.include?('client_integration_id')
         attributes_to_push['client_updated_at'] = updated_at if respond_to?(:updated_at)
-        attributes.collect {|k, v| @attributes_to_push[k.underscore] = self.class.gr_value(k.underscore, v)}
+        attributes.each {|k, v| @attributes_to_push[k.underscore] = self.class.gr_value(k.underscore, v)}
         @attributes_to_push.select! {|k, v| v.present? && !self.class.skip_fields_for_gr.include?(k)}
       end
       @attributes_to_push
@@ -102,7 +101,7 @@ module CruLib
 
         columns_to_push.each do |column|
           unless existing_fields.include?(column[:name])
-            GlobalRegistry::EntityType.post(entity_type: {name: column[:name], parent_id: entity_type['id'], field_type: column[:type]})
+            GlobalRegistry::EntityType.post(entity_type: {name: column[:name], parent_id: entity_type['id'], field_type: column[:field_type]})
           end
         end
       end
