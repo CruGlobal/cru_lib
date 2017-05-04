@@ -10,9 +10,10 @@ Gem::Specification.new do |spec|
   spec.version       = CruLib::VERSION
   spec.authors       = ['Josh Starcher']
   spec.email         = ['josh.starcher@gmail.com']
-  spec.summary       = 'Misc libraries for Cru'
-  spec.description   = 'Collection of common ruby logic used by a number of Cru apps'
-  spec.homepage      = ''
+  spec.summary       = 'Map ActiveRecord to Global Registry'
+  spec.description   = 'Provides a common interface for mapping ActiveRecord ' \
+                       'models to Global Registry entities and relationships.'
+  spec.homepage      = 'https://github.com/CruGlobal/cru_lib'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
