@@ -1,10 +1,7 @@
-require 'cru_lib'
-require 'cru_lib/async'
-
 module CruLib
   module GlobalRegistryMasterPersonMethods
     extend ActiveSupport::Concern
-    include CruLib::Async
+    include CruLib::GlobalRegistryMethods
 
     included do
       after_commit :retrieve_gr_master_person_id, on: [:create, :update]
@@ -30,12 +27,16 @@ module CruLib
       update_columns(gr_master_person_id: mdm_entity_id)
     end
 
-    class NoGlobalRegistryIdError < Rollbar::Ignore
-    end
-
-    class NoGlobalRegistryMasterPersonError < Rollbar::Ignore
+    module ClassMethods
+      def skip_fields_for_gr
+        super + %w(gr_master_person_id)
+      end
     end
   end
+
+  class NoGlobalRegistryIdError < Rollbar::Ignore; end
+
+  class NoGlobalRegistryMasterPersonError < Rollbar::Ignore; end
 end
 
 module Rollbar
