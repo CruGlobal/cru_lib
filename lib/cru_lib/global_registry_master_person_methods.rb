@@ -34,11 +34,7 @@ module CruLib
     end
   end
 
-  class NoGlobalRegistryIdError < Rollbar::Ignore; end
+  class NoGlobalRegistryIdError < StandardError; end
 
-  class NoGlobalRegistryMasterPersonError < Rollbar::Ignore; end
-end
-
-module Rollbar
-  class Ignore < StandardError; end
+  class NoGlobalRegistryMasterPersonError < StandardError; end
 end
