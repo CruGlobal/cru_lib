@@ -22,10 +22,6 @@ describe CruLib::Async do
       @tested = ShoryukenAsync.new
     end
 
-    it 'is a Shoryuken Worker' do
-      expect(@tested.with_shoryuken?).to be(true)
-    end
-
     it 'calls class method when one argument' do
       param_1 = SecureRandom.uuid
 
@@ -60,10 +56,6 @@ describe CruLib::Async do
       @tested = ShoryukenAsync.new
       @id = SecureRandom.random_number(100_000)
       @tested.id = @id
-    end
-
-    it 'is a Shoryuken Worker' do
-      expect(@tested.with_shoryuken?).to be(true)
     end
 
     it 'calls instance method properly when one argument' do
