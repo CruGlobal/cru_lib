@@ -1,12 +1,4 @@
 
-
-# Mock ActiveRecord::RecordNotFound
-#
-module ActiveRecord
-  class RecordNotFound < StandardError
-  end
-end
-
 # ActiveRecord-ish - a mocked ActiveRecord that behaves like a model class with id
 #
 class ActiveRecordIsh
@@ -18,4 +10,3 @@ class ActiveRecordIsh
     obj
   end
 end
-

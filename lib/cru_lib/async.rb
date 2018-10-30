@@ -1,23 +1,28 @@
+require 'cru_lib/worker'
+
 module CruLib
   module Async
 
-    # This will be called by a worker when a job needs to be processed
-    #
-    def perform(_, args)
-      id, method, *method_args = *args
-      if id
-        begin
-          self.class.find(id).send(method, *method_args)
-        rescue ActiveRecord::RecordNotFound
-          # If the record was deleted after the job was created, swallow it
-        end
-      else
-        self.class.send(method, *method_args)
-      end
+    def self.included(base)
+      base.extend(ClassMethods)
     end
 
     def async(method, *args)
-      self.class.perform_async([id, method] + args)
+      CruLib::Worker.
+          set(queue: self.class.get_queue_name).
+          perform_later(self.class.name, id, method.to_s, *args)
+    end
+
+    module ClassMethods
+      attr_accessor :queue_name
+
+      def queue_as(queue_name)
+        @queue_name = queue_name
+      end
+
+      def get_queue_name
+        @queue_name
+      end
     end
   end
 end
