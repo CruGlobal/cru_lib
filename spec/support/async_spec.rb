@@ -29,7 +29,7 @@ describe CruLib::Async do
         expect(arg_2.length).to eq(0)
       end
 
-      @tested.async(:method_1, param_1)
+      @tested.async("method_1", param_1)
     end
 
     it 'calls class method when two arguments' do
@@ -44,7 +44,7 @@ describe CruLib::Async do
         expect(arg_3.length).to eq(0)
       end
 
-      @tested.async(:method_2, param_1, param_2)
+      @tested.async("method_2", param_1, param_2)
     end
   end
 
@@ -67,7 +67,7 @@ describe CruLib::Async do
         expect(arg_2.length).to eq(0)
       end
 
-      @tested.async(:inst_method_1, param_1)
+      @tested.async("inst_method_1", param_1)
     end
 
     it 'calls instance method properly when two arguments' do
@@ -84,7 +84,7 @@ describe CruLib::Async do
         expect(arg_3.length).to eq(0)
       end
 
-      @tested.async(:inst_method_2, param_1, param_2)
+      @tested.async("inst_method_2", param_1, param_2)
     end
   end
 end

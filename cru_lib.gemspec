@@ -23,12 +23,12 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'global_registry', '~> 1.0'
 
-  spec.add_runtime_dependency 'rails', '>= 4.2.0'
-  spec.add_runtime_dependency 'activesupport', '>= 4.2.0'
+  spec.add_runtime_dependency 'rails', '>= 6.0'
+  spec.add_runtime_dependency 'activesupport', '>= 6.0'
 
-  spec.add_development_dependency 'bundler', '~> 1.11'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'bundler', '~> 2.3'
+  spec.add_development_dependency 'rake', '~> 13'
 
-  spec.add_development_dependency 'rspec-rails', '~> 3.7'
-  spec.add_development_dependency 'sidekiq', '~> 5.2'
+  spec.add_development_dependency 'rspec-rails', '~> 5'
+  spec.add_development_dependency 'sidekiq', '~> 6'
 end
