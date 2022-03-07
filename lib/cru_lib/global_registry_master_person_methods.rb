@@ -9,7 +9,7 @@ module CruLib
 
     def retrieve_gr_master_person_id
       return unless respond_to?(:gr_master_person_id)
-      async(:async_retrieve_gr_master_person_id)
+      async("async_retrieve_gr_master_person_id")
     end
 
     def async_retrieve_gr_master_person_id

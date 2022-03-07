@@ -10,7 +10,7 @@ module CruLib
     # TODO - deleting a relationship is different.
     def delete_from_global_registry
       if global_registry_id
-        Sidekiq::Client.enqueue(self.class, nil, :async_delete_from_global_registry, global_registry_id)
+        Sidekiq::Client.enqueue(self.class, nil, "async_delete_from_global_registry", global_registry_id)
       end
     end
 
