@@ -77,7 +77,7 @@ module CruLib
 
         case column[:field_type].to_s
         when 'datetime', 'date'
-          value.to_s(:db)
+          value.to_fs(:db)
         when 'boolean'
           value ? 'true' : 'false'
         else
